@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinted Batch Listing</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0f0f0f;
+    color: #e8e8e8;
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card {
+    background: #1a1a1a;
+    border: 1px solid #2e2e2e;
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .logo span { color: #09b1ba; }
+
+  .tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 40px;
+  }
+
+  .count-display {
+    background: #242424;
+    border: 1px solid #2e2e2e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .count-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  .count-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #09b1ba;
+    line-height: 1;
+  }
+  .count-sub {
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 6px;
+  }
+
+  .btn {
+    background: #09b1ba;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .btn:hover { background: #0accd6; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled {
+    background: #2e2e2e;
+    color: #555;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .status {
+    font-size: 0.72rem;
+    color: #555;
+    min-height: 20px;
+    transition: color 0.2s;
+  }
+  .status.done { color: #09b1ba; }
+  .status.warn { color: #ff6b35; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #2e2e2e;
+    margin: 28px 0;
+  }
+
+  .footer {
+    font-size: 0.68rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  .footer a { color: #09b1ba; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">vinted<span>helper</span></div>
+  <div class="tagline">batch listing launcher</div>
+
+  <div class="count-display">
+    <div class="count-label">Tabs to open</div>
+    <div class="count-number">5</div>
+    <div class="count-sub">vinted.de/items/new</div>
+  </div>
+
+  <button class="btn" id="launchBtn" onclick="openTabs()">
+    ⚡ Open 5 listing tabs
+  </button>
+  <div class="status" id="status">Click to open all tabs at once</div>
+
+  <hr class="divider">
+
+  <div class="footer">
+    Tabs may be blocked by your browser on first use.<br>
+    If so, click <strong style="color:#e8e8e8;">Allow</strong> in the popup bar, then try again.<br><br>
+    <a href="https://www.vinted.de/items/new" target="_blank">Open manually →</a>
+  </div>
+</div>
+
+<script>
+  function openTabs() {
+    const btn = document.getElementById('launchBtn');
+    const status = document.getElementById('status');
+    const url = 'https://www.vinted.de/items/new';
+    const count = 5;
+    let opened = 0;
+
+    btn.disabled = true;
+    status.className = 'status';
+    status.textContent = 'Opening tabs…';
+
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        window.open(url, '_blank');
+        opened++;
+        if (opened === count) {
+          status.className = 'status done';
+          status.textContent = '✓ ' + count + ' tabs opened';
+          setTimeout(() => {
+            btn.disabled = false;
+            status.className = 'status';
+            status.textContent = 'Click to open all tabs at once';
+          }, 3000);
+        }
+      }, i * 120);
+    }
+  }
+</script>
+
+</body>
+</html>
