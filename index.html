@@ -90,12 +90,6 @@
   }
   .btn:hover { background: #0accd6; transform: translateY(-1px); }
   .btn:active { transform: translateY(0); }
-  .btn:disabled {
-    background: #2e2e2e;
-    color: #555;
-    cursor: not-allowed;
-    transform: none;
-  }
 
   .status {
     font-size: 0.72rem;
@@ -104,7 +98,6 @@
     transition: color 0.2s;
   }
   .status.done { color: #09b1ba; }
-  .status.warn { color: #ff6b35; }
 
   .divider {
     border: none;
@@ -118,6 +111,9 @@
     line-height: 1.6;
   }
   .footer a { color: #09b1ba; text-decoration: none; }
+
+  /* Hidden links container */
+  #links { display: none; }
 </style>
 </head>
 <body>
@@ -140,39 +136,39 @@
   <hr class="divider">
 
   <div class="footer">
-    Tabs may be blocked by your browser on first use.<br>
-    If so, click <strong style="color:#e8e8e8;">Allow</strong> in the popup bar, then try again.<br><br>
-    <a href="https://www.vinted.de/items/new" target="_blank">Open manually →</a>
+    If tabs don't open, check Chrome allows popups<br>
+    for this site in Settings → Privacy → Site settings.<br><br>
+    <a href="https://www.vinted.de/items/new" target="_blank">Open one tab manually →</a>
   </div>
+</div>
+
+<!-- Pre-built anchor links — Chrome treats these as user-gesture clicks -->
+<div id="links">
+  <a id="link1" href="https://www.vinted.de/items/new" target="_blank" rel="noopener">1</a>
+  <a id="link2" href="https://www.vinted.de/items/new" target="_blank" rel="noopener">2</a>
+  <a id="link3" href="https://www.vinted.de/items/new" target="_blank" rel="noopener">3</a>
+  <a id="link4" href="https://www.vinted.de/items/new" target="_blank" rel="noopener">4</a>
+  <a id="link5" href="https://www.vinted.de/items/new" target="_blank" rel="noopener">5</a>
 </div>
 
 <script>
   function openTabs() {
-    const btn = document.getElementById('launchBtn');
     const status = document.getElementById('status');
-    const url = 'https://www.vinted.de/items/new';
-    const count = 5;
-    let opened = 0;
+    const ids = ['link1', 'link2', 'link3', 'link4', 'link5'];
 
-    btn.disabled = true;
-    status.className = 'status';
-    status.textContent = 'Opening tabs…';
-
-    for (let i = 0; i < count; i++) {
+    ids.forEach((id, i) => {
       setTimeout(() => {
-        window.open(url, '_blank');
-        opened++;
-        if (opened === count) {
+        document.getElementById(id).click();
+        if (i === ids.length - 1) {
           status.className = 'status done';
-          status.textContent = '✓ ' + count + ' tabs opened';
+          status.textContent = '✓ 5 tabs opened';
           setTimeout(() => {
-            btn.disabled = false;
             status.className = 'status';
             status.textContent = 'Click to open all tabs at once';
           }, 3000);
         }
-      }, i * 120);
-    }
+      }, i * 150);
+    });
   }
 </script>
 
